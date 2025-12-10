@@ -1,4 +1,4 @@
-flask
+utflask
 tensorflow
 keras
 numpy
@@ -9,3 +9,8 @@ matplotlib
 tqdm
 moviepy
 kaggle
+beautifulsoup4
+requests
+flask 
+gunicorn
+django
