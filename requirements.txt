@@ -1,6 +1,7 @@
 flask
 tensorflow
 numpy
+keras
 opencv-python-headless
 pandas
 scikit-learn
