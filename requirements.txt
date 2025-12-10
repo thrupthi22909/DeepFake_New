@@ -1,4 +1,4 @@
-utflask
+Flask==2.3.2
 tensorflow
 keras
 numpy
@@ -11,7 +11,6 @@ moviepy
 kaggle
 beautifulsoup4
 requests
-flask 
 gunicorn
 django
 urllib3
