@@ -1,8 +1,8 @@
-Flask
+flask
 tensorflow
 keras
 numpy
-opencv-python
+opencv-python-headless
 pandas
 scikit-learn
 matplotlib
@@ -12,5 +12,4 @@ kaggle
 beautifulsoup4
 requests
 gunicorn
-django
 urllib3
