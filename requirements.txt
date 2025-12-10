@@ -1,6 +1,5 @@
 flask
 tensorflow
-keras
 numpy
 opencv-python-headless
 pandas
