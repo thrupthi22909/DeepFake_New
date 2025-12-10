@@ -1,0 +1,24 @@
+# Ignore virtual environments
+env/
+venv/
+myenv/
+
+# Ignore model and dataset folders
+model/
+models/
+dataset/
+datasets/
+dataset1/
+dataset2/
+dataset2_raw/
+dataset2_kaggle/
+
+# Ignore large files
+*.npz
+*.h5
+*.mp4
+*.avi
+*.mov
+
+# Ignore Python cache
+__pycache__/

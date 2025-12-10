@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detector</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Poppins font --><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #008cff;
+            --neon-magenta: #e91e63;
+            --main-bg-color: #2c3e50; /* New Dark Slate Blue Background */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--main-bg-color);
+            /* Background image with a dark overlay for contrast */
+            background-image: linear-gradient(to bottom, rgba(44, 62, 80, 0.85) 0%, rgba(44, 62, 80, 0.85) 100%), 
+                              url('https://images.unsplash.com/photo-1579567761012-706596e1a473?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            animation: fadeIn 1s ease-in;
+            color: #e5e7eb; /* Light text color for the body/footer */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card and content animations */
+        .card {
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Custom radio button styling */
+        .radio-label {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            margin: 0 1rem;
+            color: #4b5563; /* Dark gray for visibility on light card */
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+        
+        /* The labels are inside the white card, so their text remains dark for contrast */
+        .card .radio-label {
+            color: #374151; 
+        }
+
+        .radio-label:hover {
+            color: var(--neon-cyan);
+        }
+
+        .radio-label input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #9ca3af; /* Light border */
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .radio-label input[type="radio"]:checked {
+            border-color: var(--neon-cyan);
+            background-color: transparent;
+            box-shadow: 0 0 5px rgba(0, 140, 255, 0.5);
+        }
+        
+        .radio-label input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: var(--neon-cyan);
+        }
+        
+        /* Textarea focusing effect */
+        textarea {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        textarea:focus {
+            box-shadow: 0 0 0 2px var(--neon-cyan), 0 0 10px rgba(0, 140, 255, 0.3);
+            border-color: var(--neon-cyan);
+        }
+    </style>
+</head>
+<body class="w-full min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Card --><div class="card w-full max-w-xl md:max-w-2xl bg-white/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 text-center shadow-xl border border-gray-200">
+
+        <!-- Title --><h1 class="text-3xl md:text-4xl font-extrabold mb-8 tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 animate-pulse">
+            <span class="text-4xl mr-2">📰</span> Fake News Detector
+        </h1>
+
+        <form action="/predict_news" method="post">
+            
+            <!-- Input Type Selection (Radio Buttons) --><div class="flex justify-center mb-8">
+                <label class="radio-label">
+                    <input type="radio" name="input_type" value="url" checked>
+                    🌐 Enter URL
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="input_type" value="text">
+                    📝 Enter Text
+                </label>
+            </div>
+
+            <!-- Text Area --><textarea name="news_input" placeholder="Paste a news article URL or enter news text here..." 
+                      class="w-full h-40 text-sm border rounded-xl p-4 resize-none outline-none bg-gray-100 text-gray-800 placeholder-gray-500 shadow-inner border-gray-300"></textarea>
+            
+            <!-- Submit Button --><button class="mt-8 inline-block text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 py-3 px-10 rounded-full font-semibold shadow-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-cyan-500/50 focus:outline-none focus:ring-4 focus:ring-cyan-500/50" 
+                    type="submit">
+                🚀 Detect Fake News
+            </button>
+        </form>
+    </div>
+
+    <!-- Footer --><footer class="absolute bottom-4 w-full text-center text-gray-400 text-xs">
+        © {{ 2025 }} DeepFake & Fake News Detection Project
+    </footer>
+</body>
+</html>

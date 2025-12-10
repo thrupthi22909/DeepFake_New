@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌐 DeepFake Detector</title>
+  <style>
+    /* Reset */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb, #fbc2eb, #a6c1ee);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    @keyframes gradientBG {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    nav {
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter: blur(6px);
+      animation: slideDown 1s ease;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity:0; }
+      to { transform: translateY(0); opacity:1; }
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    nav a:hover { 
+      color: #ffcc00; 
+      text-shadow: 0 0 8px #ffcc00; 
+    }
+
+    .container {
+      padding: 50px;
+      text-align: center;
+      animation: fadeIn 1.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 18px;
+      margin: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .btn-primary {
+      background: linear-gradient(45deg, #ff6a00, #ee0979);
+      color: white;
+    }
+    .btn-secondary {
+      background: linear-gradient(45deg, #2193b0, #6dd5ed);
+      color: white;
+    }
+    .btn:hover { 
+      transform: scale(1.1) rotate(-2deg); 
+      opacity: 0.9; 
+    }
+
+    .card {
+      display: inline-block;
+      padding: 30px;
+      border-radius: 25px;
+      background: white;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+      text-align: center;
+      animation: bounceIn 1.2s ease;
+    }
+    @keyframes bounceIn {
+      0% { transform: scale(0.5); opacity:0; }
+      70% { transform: scale(1.05); opacity:1; }
+      100% { transform: scale(1); }
+    }
+
+    footer {
+      text-align:center;
+      padding:20px;
+      margin-top:50px;
+      color:white;
+      font-size:14px;
+      background: rgba(0,0,0,0.6);
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div><strong>🤖✨ DeepFake Detector 🚀</strong></div>
+    <div>
+      <a href="/">🏠 Home</a>
+      <a href="/detection">🕵️ Detection</a>
+      <a href="/about">ℹ️ About</a>
+      <a href="/logout">🚪 Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+
+  <footer>
+    🌐 Made with ❤️ and AI • © {{ 2025 }}
+  </footer>
+</body>
+</html>

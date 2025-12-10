@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detection Result</title>
+    
+<script src="https://cdn.tailwindcss.com"></script>
+    
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #008cff; 
+            --neon-magenta: #e91e63;
+            --main-bg-color: #2c3e50; /* Dark Slate Blue Background */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--main-bg-color);
+            /* Background image with a dark overlay for contrast */
+            background-image: linear-gradient(to bottom, rgba(44, 62, 80, 0.85) 0%, rgba(44, 62, 80, 0.85) 100%), 
+                              url('https://images.unsplash.com/photo-1579567761012-706596e1a473?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            animation: fadeIn 1s ease-in;
+            color: #e5e7eb; /* Light text color for the body/footer */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card animations */
+        .box {
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Result styling */
+        .result-text {
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px; /* Fully rounded */
+            display: inline-block;
+            margin-top: 1rem;
+            text-shadow: 0 0 5px rgba(0,0,0,0.1); /* Subtle shadow for text */
+            transition: all 0.3s ease;
+        }
+
+        /* Styles for FAKE result */
+        .fake-style {
+            color: #d32f2f; /* Darker red */
+            background: rgba(255, 235, 235, 0.8); /* Very light red background */
+            border: 2px solid #ef5350; /* Medium red border */
+            box-shadow: 0 0 15px rgba(239, 83, 80, 0.4); /* Soft red glow */
+            animation: pulseFake 2s infinite;
+        }
+
+        /* Styles for REAL result */
+        .real-style {
+            color: #388e3c; /* Darker green */
+            background: rgba(232, 245, 233, 0.8); /* Very light green background */
+            border: 2px solid #66bb6a; /* Medium green border */
+            box-shadow: 0 0 15px rgba(102, 187, 106, 0.4); /* Soft green glow */
+            animation: pulseReal 2s infinite;
+        }
+
+        /* Animations for result pulse */
+        @keyframes pulseFake {
+            0% { box-shadow: 0 0 10px rgba(239, 83, 80, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(239, 83, 80, 0.6); }
+            100% { box-shadow: 0 0 10px rgba(239, 83, 80, 0.3); }
+        }
+
+        @keyframes pulseReal {
+            0% { box-shadow: 0 0 10px rgba(102, 187, 106, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(102, 187, 106, 0.6); }
+            100% { box-shadow: 0 0 10px rgba(102, 187, 106, 0.3); }
+        }
+
+        /* Textarea focusing effect */
+        textarea {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        textarea:focus {
+            box-shadow: 0 0 0 2px var(--neon-cyan), 0 0 10px rgba(0, 140, 255, 0.3);
+            border-color: var(--neon-cyan);
+        }
+    </style>
+</head>
+<body class="w-full min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Result Card --><div class="box w-full max-w-xl md:max-w-2xl bg-white/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 text-center shadow-xl border border-gray-200">
+
+       <h1 class="text-3xl md:text-4xl font-extrabold mb-4 tracking-wider text-gray-800 text-center">
+    <span class="text-4xl mr-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">📰</span> News Detection Result
+</h1>
+        <!-- Dynamic Result Display --><p id="resultDisplay" class="result-text text-3xl md:text-4xl"></p>
+
+        <!-- Confidence Score --><p class="text-xl text-gray-700 mt-4">Confidence: <span class="font-semibold">{{ confidence | round(2) }}%</span></p>
+
+        <!-- Analyzed Text Area --><h3 class="mt-8 mb-4 text-xl font-semibold text-gray-700 uppercase tracking-wide">Analyzed Text:</h3>
+        <textarea readonly class="w-full h-40 text-sm border rounded-xl p-4 resize-none outline-none bg-gray-100 text-gray-800 placeholder-gray-500 shadow-inner border-gray-300">{{ input_text }}</textarea>
+
+        <!-- Back Button --><a href="{{ url_for('fake_news') }}" class="mt-8 inline-block text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 py-3 px-10 rounded-full font-semibold shadow-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-cyan-500/50 focus:outline-none focus:ring-4 focus:ring-cyan-500/50">
+            ← Back to Detector
+        </a>
+    </div>
+
+    <!-- Footer --><footer class="absolute bottom-4 w-full text-center text-gray-400 text-xs">
+        © {{ 2025 }} DeepFake & Fake News Detection Project
+    </footer>
+
+    <!-- JavaScript to dynamically apply styles based on the result from the backend (Jinja/Flask) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultElement = document.getElementById('resultDisplay');
+            // This assumes a backend like Flask/Jinja injects the actual result string
+            const resultText = "{{ result }}"; 
+
+            resultElement.textContent = resultText;
+
+            // Apply appropriate style based on the result string
+            if (resultText.includes('Fake')) {
+                resultElement.classList.add('fake-style');
+            } else if (resultText.includes('Real')) {
+                resultElement.classList.add('real-style');
+            }
+        });
+    </script>
+</body>
+</html>

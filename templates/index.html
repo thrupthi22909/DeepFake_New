@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .hero {
+      height: 100vh;
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                  url("https://images.unsplash.com/photo-1527443224154-c4e2b5609f4b") no-repeat center center/cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .hero h1 {
+      font-size: 56px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+      animation: slideDown 1.5s ease-out;
+    }
+
+    .hero p {
+      font-size: 22px;
+      margin-top: 20px;
+      opacity: 0.9;
+      animation: fadeIn 2.5s ease-in-out;
+    }
+
+    .hero .btn {
+      padding: 15px 30px;
+      margin: 15px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-primary {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #2196F3;
+      color: white;
+    }
+
+    .hero .btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0px 4px 20px rgba(164, 99, 255, 0.3);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+
+  <div class="hero">
+    <h1>Detect DeepFakes with Advanced AI</h1>
+    <p>Upload images or videos and let AI verify authenticity instantly.</p>
+    <div>
+      <a href="/detection"><button class="btn btn-primary">🚀 Start Detection</button></a>
+      <a href="{{ url_for('fake_news') }}"><button class="btn btn-primary">📰 Fake News Detection</button></a>
+
+      <a href="/about"><button class="btn btn-secondary">ℹ️ Learn More</button></a>
+
+    </div>
+  </div>
+{% endblock %}

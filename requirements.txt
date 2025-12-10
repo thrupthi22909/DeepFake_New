@@ -1,0 +1,11 @@
+flask
+tensorflow
+keras
+numpy
+opencv-python
+pandas
+scikit-learn
+matplotlib
+tqdm
+moviepy
+kaggle

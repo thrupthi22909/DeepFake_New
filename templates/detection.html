@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2 style="color:white; text-shadow:1px 1px 6px black; text-align:center;">
+    Upload Media for DeepFake Detection
+  </h2>
+
+  <form action="/predict" method="POST" enctype="multipart/form-data" style="margin-top:30px; text-align:center;">
+    <div id="drop-area" 
+         style="border:3px dashed white; padding:50px; border-radius:20px;
+                width:60%; margin:auto; background:rgba(255,255,255,0.2);
+                cursor:pointer; color:white; transition:0.3s;">
+      <p>📂 Drag & Drop or Click to Upload</p>
+      <input type="file" name="file" id="fileInput" accept="image/*,video/*" required style="display:none;">
+    </div>
+
+    <!-- Preview area -->
+    <div id="preview" style="margin-top:30px;"></div>
+
+    <br>
+    <button type="submit" class="btn btn-primary">🔍 Analyze</button>
+  </form>
+
+  <script>
+    const dropArea = document.getElementById("drop-area");
+    const fileInput = document.getElementById("fileInput");
+    const preview = document.getElementById("preview");
+
+    // click to upload
+    dropArea.addEventListener("click", () => fileInput.click());
+
+    // drag & drop styles
+    dropArea.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropArea.style.background = "rgba(255,255,255,0.4)";
+    });
+
+    dropArea.addEventListener("dragleave", () => {
+      dropArea.style.background = "rgba(255,255,255,0.2)";
+    });
+
+    dropArea.addEventListener("drop", (e) => {
+      e.preventDefault();
+      fileInput.files = e.dataTransfer.files;
+      dropArea.style.background = "rgba(255,255,255,0.2)";
+      showPreview(fileInput.files[0]);
+    });
+
+    // when file selected normally
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files.length > 0) {
+        showPreview(fileInput.files[0]);
+      }
+    });
+
+    // preview function
+    function showPreview(file) {
+      preview.innerHTML = ""; // clear old preview
+      if (!file) return;
+
+      const url = URL.createObjectURL(file);
+
+      if (file.type.startsWith("image/")) {
+        const img = document.createElement("img");
+        img.src = url;
+        img.style.maxWidth = "500px";
+        img.style.borderRadius = "10px";
+        img.style.marginTop = "20px";
+        img.style.boxShadow = "0 5px 15px rgba(0,0,0,0.3)";
+        preview.appendChild(img);
+      } else if (file.type.startsWith("video/")) {
+        const video = document.createElement("video");
+        video.src = url;
+        video.controls = true;
+        video.width = 375;
+        video.style.borderRadius = "10px";
+        video.style.marginTop = "20px";
+        video.style.boxShadow = "0 5px 15px rgba(0,0,0,0.3)";
+        preview.appendChild(video);
+      } else {
+        preview.innerHTML = "<p style='color:red;'>❌ Unsupported file type.</p>";
+      }
+    }
+  </script>
+{% endblock %} 

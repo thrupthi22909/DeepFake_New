@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow-lg p-4" style="max-width:900px; margin:auto; border-radius:15px;">
+
+    <!-- Final Detection Result -->
+    <h1 class="{{ 'real' if result == 'Real' else 'fake' }}">
+      {{ '✅ Real' if result == 'Real' else '❌ Fake' }}
+    </h1>
+    <p style="font-size:20px;">Confidence: <strong>{{ confidence | round(2) }}%</strong></p>
+
+    <p style="font-size:22px; margin-top:15px;">
+      🧾 Detection Result:
+      <strong>{{ 'Real 🟢' if result == 'Real' else 'Fake 🔴' }}</strong>
+    </p>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="progress {{ 'real' if result == 'Real' else 'fake' }}" 
+           style="width: {{ confidence | round(2) }}%">
+        {{ confidence | round(2) }}%
+      </div>
+    </div>
+
+  {% if image_path %}
+    <h3 class="mt-4">🖼 Uploaded Image</h3>
+    <img src="{{ url_for('static', filename=image_path) }}" 
+         alt="Analyzed Image" width="500"
+         style="margin-top:20px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.3);">
+  {% elif video_path %}
+    <h3 class="mt-4">🎥 Uploaded Video</h3>
+    <div style="display:flex; justify-content:center;">
+      <video width="480" height="340" controls preload="metadata" playsinline
+             style="border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.3); background:#000;">
+        <source src="{{ url_for('static', filename=video_path) }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  {% else %}
+    <p style="color: gray; margin-top:20px;">⚠️ No media file found to display.</p>
+  {% endif %}
+
+  {% if frames %}
+    <h3 class="mt-4">🧩 Extracted Frames</h3>
+    <div class="gallery">
+      {% for frame in frames %}
+        <img src="data:image/jpeg;base64,{{ frame }}" width="150" alt="Frame">
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <br><br>
+  <a href="/detection" class="btn btn-secondary">🔄 Try Another</a>
+</div>
+
+<style>
+.real { color: green; }
+.fake { color: red; }
+.progress-bar {
+  width: 70%; margin: 20px auto; height: 30px;
+  background: #eee; border-radius: 15px;
+}
+.progress {
+  height: 100%; text-align: center; line-height: 30px;
+  color: white; border-radius: 15px;
+  transition: width 1s ease-in-out;
+}
+.progress.real { background: linear-gradient(90deg, #00c853, #64dd17); }
+.progress.fake { background: linear-gradient(90deg, #d50000, #ff1744); }
+.gallery {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: center; margin-top: 10px;
+}
+.gallery img {
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+</style>
+{% endblock %}
